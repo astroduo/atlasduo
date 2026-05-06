@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Atlas Duo — Viola & Guitar Across the Americas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Crimson+Pro:ital,wght@0,300..700;1,300..700&family=Caveat:wght@400..700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #f5eedc;
+    --cream-light: #fbf6e9;
+    --cream-deep: #ecdfbf;
+    --ink: #1f1814;
+    --ink-soft: #3a2f28;
+    --terracotta: #b85c38;
+    --terracotta-deep: #8f4326;
+    --sage: #6b7556;
+    --gold: #c49a52;
+    --rule: #d6c8a8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.65;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(184, 92, 56, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(107, 117, 86, 0.05) 0%, transparent 50%);
+  }
+
+  /* Paper grain texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+
+  /* ============ HEADER ============ */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 40px;
+    backdrop-filter: blur(12px);
+    background: rgba(245, 238, 220, 0.85);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    font-variation-settings: "SOFT" 30, "opsz" 144;
+    letter-spacing: -0.01em;
+  }
+  .logo em { font-style: italic; color: var(--terracotta); font-weight: 400; }
+
+  nav.main {
+    display: flex;
+    gap: 32px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-family: 'Crimson Pro', serif;
+    font-weight: 500;
+  }
+  nav.main a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+  nav.main a:hover { color: var(--terracotta); }
+  nav.main a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--terracotta);
+    transition: width 0.3s;
+  }
+  nav.main a:hover::after { width: 100%; }
+
+  .lang-toggle {
+    display: flex;
+    gap: 4px;
+    font-family: 'Fraunces', serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+  .lang-toggle button {
+    background: transparent;
+    border: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    padding: 6px 8px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+  }
+  .lang-toggle button.active { color: var(--terracotta); border-bottom: 1px solid var(--terracotta); }
+  .lang-toggle button:hover { color: var(--terracotta); }
+  .lang-toggle .sep { color: var(--rule); padding: 6px 0; }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 60px 80px;
+    gap: 60px;
+    position: relative;
+  }
+
+  .hero-text { z-index: 5; position: relative; }
+
+  .hero-meta {
+    font-family: 'Crimson Pro', serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.2s forwards;
+  }
+  .hero-meta::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--terracotta);
+  }
+
+  h1.hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(60px, 9vw, 140px);
+    line-height: 0.92;
+    font-weight: 400;
+    font-variation-settings: "SOFT" 50, "opsz" 144;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.4s forwards;
+  }
+  h1.hero-title .ampersand {
+    font-style: italic;
+    color: var(--terracotta);
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-weight: 300;
+    display: inline-block;
+    transform: translateY(0.05em) scale(1.15);
+    margin: 0 0.05em;
+  }
+
+  .hero-tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 24px;
+    color: var(--ink-soft);
+    margin-bottom: 36px;
+    max-width: 520px;
+    line-height: 1.4;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.6s forwards;
+  }
+
+  .hero-current {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 22px;
+    background: var(--cream-light);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    box-shadow: 0 8px 30px rgba(31, 24, 20, 0.06);
+    opacity: 0;
+    animation: fadeUp 1.2s 0.8s forwards;
+  }
+  .pulse {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .pulse::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid var(--terracotta);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+  }
+  .hero-current .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+  }
+  .hero-current .place {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--terracotta-deep);
+    font-weight: 600;
+  }
+
+  /* Hero illustration */
+  .hero-art {
+    position: relative;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  .hero-art svg {
+    width: 100%;
+    max-width: 520px;
+    opacity: 0;
+    animation: fadeIn 2s 0.8s forwards;
+  }
+
+  /* Decorative flourish */
+  .corner-flourish {
+    position: absolute;
+    top: 100px; right: 40px;
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    color: var(--sage);
+    transform: rotate(-12deg);
+    opacity: 0;
+    animation: fadeIn 2s 1.4s forwards;
+  }
+
+  /* ============ SECTIONS ============ */
+  section {
+    padding: 120px 60px;
+    position: relative;
+    z-index: 5;
+  }
+
+  .section-eyebrow {
+    font-family: 'Crimson Pro', serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--terracotta);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--terracotta);
+  }
+
+  h2.section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(48px, 6vw, 84px);
+    line-height: 0.95;
+    font-weight: 400;
+    font-variation-settings: "SOFT" 40, "opsz" 144;
+    letter-spacing: -0.02em;
+    margin-bottom: 60px;
+    max-width: 900px;
+  }
+  h2.section-title em {
+    font-style: italic;
+    color: var(--terracotta);
+    font-weight: 300;
+  }
+
+  /* ============ ABOUT ============ */
+  .about {
+    background: var(--cream-light);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-portrait {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, #d4b885 0%, #a8896a 50%, #6b5340 100%);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .about-portrait::after {
+    content: 'PORTRAIT — replace via CMS';
+    position: absolute;
+    bottom: 16px; left: 16px;
+    font-family: 'Caveat', cursive;
+    font-size: 14px;
+    color: var(--cream);
+    background: rgba(31, 24, 20, 0.4);
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+  .about-portrait svg {
+    width: 100%; height: 100%;
+    opacity: 0.7;
+  }
+
+  .about-text p {
+    font-size: 21px;
+    line-height: 1.65;
+    margin-bottom: 24px;
+    color: var(--ink-soft);
+  }
+  .about-text p:first-of-type::first-letter {
+    font-family: 'Fraunces', serif;
+    font-size: 76px;
+    float: left;
+    line-height: 0.85;
+    margin: 8px 12px 0 0;
+    color: var(--terracotta);
+    font-weight: 400;
+    font-variation-settings: "SOFT" 80;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 1px solid var(--rule);
+  }
+  .stat .num {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--terracotta);
+    font-variation-settings: "SOFT" 60;
+  }
+  .stat .label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    margin-top: 8px;
+  }
+
+  /* ============ TOUR ============ */
+  .tour-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .concerts-list { display: flex; flex-direction: column; }
+
+  .concert {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 28px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: center;
+    transition: padding 0.3s;
+    cursor: pointer;
+  }
+  .concert:hover { padding-left: 12px; }
+  .concert:hover .concert-city { color: var(--terracotta); }
+
+  .concert-date {
+    text-align: center;
+    width: 70px;
+    flex-shrink: 0;
+  }
+  .concert-date .day {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .concert-date .month {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .concert-info { padding: 0 12px; border-left: 1px solid var(--rule); }
+  .concert-city {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+  .concert-city .country {
+    color: var(--ink-soft);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .concert-venue {
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  .concert-cta {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--terracotta);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid var(--terracotta);
+    transition: all 0.3s;
+  }
+  .concert-cta:hover {
+    background: var(--terracotta);
+    color: var(--cream);
+  }
+
+  .map-block {
+    position: sticky;
+    top: 100px;
+  }
+
+  .map-frame {
+    aspect-ratio: 4/5;
+    background: var(--cream-deep);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(31, 24, 20, 0.1);
+  }
+
+  .map-frame .map-label {
+    position: absolute;
+    top: 16px; left: 16px;
+    font-family: 'Caveat', cursive;
+    font-size: 17px;
+    color: var(--ink-soft);
+    background: var(--cream);
+    padding: 4px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    z-index: 3;
+  }
+
+  .findpenguins-cta {
+    margin-top: 18px;
+    padding: 18px 22px;
+    background: var(--cream-light);
+    border: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .findpenguins-cta .text {
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+  .findpenguins-cta strong { color: var(--ink); font-weight: 600; }
+  .findpenguins-cta a {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    color: var(--terracotta);
+    text-decoration: none;
+    border-bottom: 1px solid var(--terracotta);
+    padding-bottom: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ============ MUSIC / VIDEOS ============ */
+  .music {
+    background: var(--ink);
+    color: var(--cream);
+    border-top: 1px solid var(--ink-soft);
+  }
+  .music .section-eyebrow { color: var(--gold); }
+  .music .section-eyebrow::before { background: var(--gold); }
+  .music h2.section-title { color: var(--cream); }
+  .music h2.section-title em { color: var(--gold); }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+  }
+  .video-feature, .video-card {
+    aspect-ratio: 16/9;
+    background: #2b2018;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: transform 0.4s;
+  }
+  .video-feature:hover, .video-card:hover { transform: scale(1.01); }
+
+  .video-secondary { display: flex; flex-direction: column; gap: 24px; }
+
+  .video-card { aspect-ratio: 16/9; }
+
+  .video-thumb {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+  }
+
+  .video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.85) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 28px;
+  }
+
+  .video-info { width: 100%; }
+  .video-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  .video-feature .video-title { font-size: 32px; }
+  .video-meta {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
+
+  .play-icon {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px; height: 64px;
+    border: 1.5px solid var(--cream);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    backdrop-filter: blur(4px);
+    background: rgba(0,0,0,0.2);
+  }
+  .video-feature .play-icon { width: 80px; height: 80px; }
+  .video-feature:hover .play-icon, .video-card:hover .play-icon {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .play-icon::before {
+    content: '';
+    width: 0; height: 0;
+    border-left: 14px solid var(--cream);
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    margin-left: 4px;
+    transition: border-color 0.3s;
+  }
+  .video-feature .play-icon::before { border-left-width: 18px; border-top-width: 11px; border-bottom-width: 11px; }
+  .video-feature:hover .play-icon::before, .video-card:hover .play-icon::before { border-left-color: var(--ink); }
+
+  /* ============ GALLERY ============ */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 100px;
+    gap: 12px;
+  }
+  .gallery-item {
+    overflow: hidden;
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+    background: var(--cream-deep);
+    transition: transform 0.4s;
+  }
+  .gallery-item:hover { transform: scale(0.99); }
+  .gallery-item:hover .gallery-caption { opacity: 1; }
+
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s;
+  }
+  .gallery-item:hover img { transform: scale(1.05); }
+
+  .gallery-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 14px 16px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: var(--cream);
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  /* Bento gallery layout */
+  .gallery-item:nth-child(1) { grid-column: span 3; grid-row: span 3; }
+  .gallery-item:nth-child(2) { grid-column: span 3; grid-row: span 2; }
+  .gallery-item:nth-child(3) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(4) { grid-column: span 1; grid-row: span 2; }
+  .gallery-item:nth-child(5) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(6) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(7) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(8) { grid-column: span 2; grid-row: span 2; }
+
+  /* ============ JOURNAL / BLOG ============ */
+  .journal {
+    background: var(--cream-light);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .journal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  .post {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s, box-shadow 0.4s;
+  }
+  .post:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(31, 24, 20, 0.08);
+  }
+
+  .post-header {
+    height: 200px;
+    background: linear-gradient(135deg, var(--terracotta), var(--gold));
+    position: relative;
+    overflow: hidden;
+  }
+  .post:nth-child(2) .post-header { background: linear-gradient(135deg, var(--sage), #4a5a3f); }
+  .post:nth-child(3) .post-header { background: linear-gradient(135deg, #6b5340, var(--terracotta-deep)); }
+
+  .post-header svg {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0.4;
+  }
+
+  .post-body { padding: 28px 30px 30px; }
+  .post-meta {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .post-meta .dot { color: var(--terracotta); margin: 0 6px; }
+
+  .post-title {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .post-excerpt {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+  .post-link {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--terracotta);
+    text-decoration: none;
+  }
+  .post-link::after { content: ' →'; transition: margin-left 0.2s; display: inline-block; }
+  .post:hover .post-link::after { transform: translateX(4px); }
+
+  /* ============ SUPPORT ============ */
+  .support-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .support-intro p {
+    font-size: 21px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+
+  .support-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .support-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 26px;
+    background: var(--cream-light);
+    border: 1px solid var(--rule);
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .support-btn:hover {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .support-btn .name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .support-btn .handle {
+    font-size: 14px;
+    color: var(--ink-soft);
+    transition: color 0.3s;
+  }
+  .support-btn:hover .handle { color: var(--cream-deep); }
+
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .tier {
+    padding: 28px 26px;
+    border: 1px solid var(--rule);
+    background: var(--cream-light);
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .tier:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(31, 24, 20, 0.08);
+  }
+  .tier.featured {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .tier .amount {
+    font-family: 'Fraunces', serif;
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--terracotta);
+    font-variation-settings: "SOFT" 60;
+    margin-bottom: 4px;
+  }
+  .tier.featured .amount { color: var(--gold); }
+  .tier .tier-name {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    margin-bottom: 14px;
+    color: var(--ink-soft);
+  }
+  .tier.featured .tier-name { color: var(--cream-deep); }
+  .tier ul { list-style: none; }
+  .tier li {
+    font-size: 15px;
+    padding: 6px 0;
+    padding-left: 20px;
+    position: relative;
+    color: var(--ink-soft);
+  }
+  .tier.featured li { color: var(--cream-deep); }
+  .tier li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: var(--terracotta);
+    font-size: 10px;
+    top: 9px;
+  }
+  .tier.featured li::before { color: var(--gold); }
+
+  /* ============ NEWSLETTER ============ */
+  .newsletter {
+    background: var(--terracotta);
+    color: var(--cream);
+    text-align: center;
+    padding: 100px 60px;
+  }
+  .newsletter .section-eyebrow {
+    color: var(--cream-deep);
+    justify-content: center;
+  }
+  .newsletter .section-eyebrow::before { background: var(--cream-deep); }
+
+  .newsletter h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    font-weight: 400;
+    font-variation-settings: "SOFT" 50, "opsz" 144;
+    margin-bottom: 16px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .newsletter h2 em { font-style: italic; font-weight: 300; }
+
+  .newsletter-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 20px;
+    margin-bottom: 36px;
+    opacity: 0.9;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 0;
+    max-width: 520px;
+    margin: 0 auto;
+    border: 1.5px solid var(--cream);
+  }
+  .newsletter-form input {
+    flex: 1;
+    padding: 18px 22px;
+    background: transparent;
+    border: none;
+    color: var(--cream);
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    outline: none;
+  }
+  .newsletter-form input::placeholder { color: rgba(245, 238, 220, 0.6); }
+  .newsletter-form button {
+    padding: 0 28px;
+    background: var(--cream);
+    color: var(--terracotta-deep);
+    border: none;
+    font-family: 'Crimson Pro', serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .newsletter-form button:hover { background: var(--ink); color: var(--cream); }
+
+  /* ============ CONTACT ============ */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 22px; }
+  .field label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .field input, .field textarea, .field select {
+    width: 100%;
+    padding: 12px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    border-bottom-color: var(--terracotta);
+  }
+  .field textarea { resize: vertical; min-height: 100px; }
+
+  button.submit-btn {
+    align-self: flex-start;
+    margin-top: 12px;
+    padding: 16px 36px;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    font-family: 'Crimson Pro', serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: 600;
+  }
+  button.submit-btn:hover { background: var(--terracotta); }
+
+  .contact-side h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .contact-side p {
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+  .contact-info {
+    margin-bottom: 36px;
+  }
+  .contact-info .row {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+  }
+  .contact-info .row:last-child { border-bottom: none; }
+  .contact-info .label {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+  .contact-info .val { font-family: 'Fraunces', serif; }
+
+  .socials {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .social-link {
+    width: 48px; height: 48px;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    text-decoration: none;
+    transition: all 0.3s;
+    background: var(--cream-light);
+  }
+  .social-link:hover {
+    background: var(--terracotta);
+    color: var(--cream);
+    border-color: var(--terracotta);
+    transform: translateY(-2px);
+  }
+  .social-link svg { width: 18px; height: 18px; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 80px 60px 40px;
+    text-align: center;
+    border-top: 1px solid var(--ink-soft);
+  }
+  footer .footer-mark {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-weight: 400;
+    font-variation-settings: "SOFT" 60, "opsz" 144;
+    margin-bottom: 14px;
+  }
+  footer .footer-mark em { font-style: italic; color: var(--gold); font-weight: 300; }
+  footer .tagline {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--gold);
+    margin-bottom: 60px;
+  }
+  footer .footer-rule {
+    width: 80px;
+    height: 1px;
+    background: var(--ink-soft);
+    margin: 0 auto 30px;
+  }
+  footer .copy {
+    font-size: 13px;
+    color: rgba(245, 238, 220, 0.5);
+    letter-spacing: 0.05em;
+  }
+
+  /* ============ ANIMATIONS ============ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s, transform 1s; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    header { padding: 14px 20px; }
+    nav.main { display: none; }
+    section { padding: 80px 24px; }
+    .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; }
+    .hero-art { display: none; }
+    .corner-flourish { display: none; }
+    .about-grid, .tour-grid, .support-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .video-grid, .journal-grid, .tiers { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 120px; }
+    .gallery-item:nth-child(n) { grid-column: span 1; grid-row: span 2; }
+    .gallery-item:nth-child(1) { grid-column: span 2; }
+    .map-block { position: static; }
+    .about-stats { grid-template-columns: 1fr; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="logo" data-i18n-html="logo">Atlas <em>&</em> Duo</div>
+  <nav class="main">
+    <a href="#about" data-i18n="nav.about">About</a>
+    <a href="#tour" data-i18n="nav.tour">Tour</a>
+    <a href="#music" data-i18n="nav.music">Music</a>
+    <a href="#journal" data-i18n="nav.journal">Journal</a>
+    <a href="#support" data-i18n="nav.support">Support</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
+  </nav>
+  <div class="lang-toggle">
+    <button class="active" data-lang="en">EN</button>
+    <span class="sep">·</span>
+    <button data-lang="es">ES</button>
+    <span class="sep">·</span>
+    <button data-lang="pt">PT</button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-meta" data-i18n="hero.meta">A Concert Tour · The Americas · 2026</div>
+    <h1 class="hero-title">
+      <span data-i18n="hero.word1">Atlas</span><br>
+      <span class="ampersand">&</span><br>
+      <span data-i18n="hero.word2">Duo</span>
+    </h1>
+    <p class="hero-tagline" data-i18n="hero.tagline">A viola and a guitar carrying chamber music through fifteen countries — from Patagonia to the Yukon.</p>
+    <div class="hero-current">
+      <div class="pulse"></div>
+      <div>
+        <div class="label" data-i18n="hero.currently">Currently in</div>
+        <div class="place" data-i18n="hero.location">Cusco, Peru</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-art">
+    <!-- Decorative SVG: viola + guitar lockup with topographic lines -->
+    <svg viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="instGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#b85c38" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#8f4326" stop-opacity="0.9"/>
+        </linearGradient>
+        <linearGradient id="instGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#6b5340" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#3a2f28" stop-opacity="0.9"/>
+        </linearGradient>
+      </defs>
+      <!-- Topographic background lines -->
+      <g stroke="#6b7556" stroke-width="0.5" fill="none" opacity="0.3">
+        <ellipse cx="250" cy="300" rx="220" ry="260"/>
+        <ellipse cx="250" cy="300" rx="190" ry="225"/>
+        <ellipse cx="250" cy="300" rx="160" ry="190"/>
+        <ellipse cx="250" cy="300" rx="130" ry="155"/>
+        <ellipse cx="250" cy="300" rx="100" ry="120"/>
+        <ellipse cx="250" cy="300" rx="70" ry="85"/>
+      </g>
+      <!-- Guitar (left, behind) -->
+      <g transform="translate(170, 130) rotate(-12)">
+        <path d="M 60 80 Q 30 100, 30 160 Q 30 220, 60 240 Q 90 260, 100 240 Q 110 220, 100 200 Q 95 180, 100 160 Q 110 140, 100 120 Q 90 100, 60 80 Z"
+              fill="url(#instGrad2)" />
+        <rect x="55" y="20" width="10" height="80" fill="#3a2f28" />
+        <circle cx="60" cy="170" r="14" fill="#1f1814" />
+        <circle cx="60" cy="170" r="11" fill="#2b2018" />
+        <line x1="55" y1="30" x2="55" y2="240" stroke="#c49a52" stroke-width="0.4"/>
+        <line x1="58" y1="30" x2="58" y2="240" stroke="#c49a52" stroke-width="0.4"/>
+        <line x1="61" y1="30" x2="61" y2="240" stroke="#c49a52" stroke-width="0.4"/>
+        <line x1="64" y1="30" x2="64" y2="240" stroke="#c49a52" stroke-width="0.4"/>
+      </g>
+      <!-- Viola (right, in front) -->
+      <g transform="translate(250, 100) rotate(15)">
+        <path d="M 50 120 Q 25 130, 20 175 Q 15 220, 35 245 Q 50 260, 65 250 Q 70 235, 65 220 L 65 180 Q 70 165, 65 150 Q 70 135, 65 125 Q 60 115, 50 120 Z"
+              fill="url(#instGrad)" />
+        <rect x="48" y="40" width="6" height="90" fill="#1f1814" />
+        <path d="M 48 30 Q 51 24, 54 30 Q 56 36, 51 42 Q 46 36, 48 30 Z" fill="#1f1814" />
+        <path d="M 38 175 Q 36 178, 38 181 M 38 188 Q 36 191, 38 194" stroke="#1f1814" stroke-width="1" fill="none"/>
+        <path d="M 64 175 Q 66 178, 64 181 M 64 188 Q 66 191, 64 194" stroke="#1f1814" stroke-width="1" fill="none"/>
+        <line x1="48" y1="40" x2="48" y2="245" stroke="#c49a52" stroke-width="0.3"/>
+        <line x1="50" y1="40" x2="50" y2="245" stroke="#c49a52" stroke-width="0.3"/>
+        <line x1="52" y1="40" x2="52" y2="245" stroke="#c49a52" stroke-width="0.3"/>
+        <line x1="54" y1="40" x2="54" y2="245" stroke="#c49a52" stroke-width="0.3"/>
+      </g>
+      <!-- Compass star -->
+      <g transform="translate(250, 470)" opacity="0.4">
+        <path d="M 0 -25 L 5 0 L 0 25 L -5 0 Z" fill="#1f1814"/>
+        <path d="M -25 0 L 0 -5 L 25 0 L 0 5 Z" fill="#1f1814"/>
+      </g>
+    </svg>
+  </div>
+  <div class="corner-flourish" data-i18n="hero.flourish">~ a journey in fifths and sixths ~</div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="section-eyebrow" data-i18n="about.eyebrow">Chapter One</div>
+  <h2 class="section-title" data-i18n-html="about.title">Two instruments, <em>two continents,</em> one conversation.</h2>
+  <div class="about-grid">
+    <div class="about-portrait">
+      <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="500" fill="url(#portGrad)"/>
+        <defs>
+          <linearGradient id="portGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#d4b885"/>
+            <stop offset="100%" stop-color="#6b5340"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="about-text">
+      <p data-i18n="about.p1">The Atlas Duo brings together the dark warmth of viola and the percussive clarity of guitar — an unusual pairing that opens new ground in chamber music. Across borders, climates, and time zones, the two voices trade lines like travelers swapping stories at a table.</p>
+      <p data-i18n="about.p2">Our 2026 tour traces the spine of the Americas: from Buenos Aires and Santiago through the Andes, across Central America, into the great rivers of North America, and finishing in the long northern light of Yukon. Along the way: forty concerts, three languages, countless borrowed kitchens.</p>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="num">40+</div>
+          <div class="label" data-i18n="about.stat1">Concerts Booked</div>
+        </div>
+        <div class="stat">
+          <div class="num">15</div>
+          <div class="label" data-i18n="about.stat2">Countries</div>
+        </div>
+        <div class="stat">
+          <div class="num">11</div>
+          <div class="label" data-i18n="about.stat3">Months on Tour</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOUR ============ -->
+<section id="tour">
+  <div class="section-eyebrow" data-i18n="tour.eyebrow">The Itinerary</div>
+  <h2 class="section-title" data-i18n-html="tour.title">Upcoming <em>concerts</em> & where we are now.</h2>
+  <div class="tour-grid">
+    <div class="concerts-list" id="concerts-list"></div>
+    <div class="map-block">
+      <div class="map-frame">
+        <div class="map-label" data-i18n="tour.maplabel">live · find penguins</div>
+        <!-- Placeholder for FindPenguins iframe -->
+        <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="500" fill="#ecdfbf"/>
+          <!-- Simplified Americas outline -->
+          <path d="M 130 60 Q 145 70, 150 90 Q 165 110, 175 100 Q 195 95, 210 110 Q 230 105, 245 120 Q 250 140, 240 160 Q 230 180, 220 175 Q 210 195, 215 220 Q 220 245, 210 260 Q 215 280, 205 295 Q 200 320, 190 330 Q 200 350, 195 375 Q 200 400, 195 420 Q 190 440, 185 455 L 175 460 Q 178 440, 175 420 Q 170 395, 178 375 Q 175 350, 168 330 Q 178 320, 178 300 Q 175 285, 172 265 Q 175 240, 168 220 Q 165 200, 175 180 Q 180 160, 170 140 Q 155 130, 145 115 Q 135 100, 130 85 Z"
+                fill="#b85c38" opacity="0.18" stroke="#b85c38" stroke-width="0.6"/>
+          <!-- Mock route line -->
+          <path d="M 195 430 Q 200 380, 195 330 Q 180 280, 175 220 Q 170 170, 165 130 Q 155 95, 145 70"
+                stroke="#b85c38" stroke-width="1.2" fill="none" stroke-dasharray="3 3" opacity="0.7"/>
+          <!-- City dots -->
+          <circle cx="195" cy="430" r="4" fill="#1f1814"/>
+          <circle cx="200" cy="380" r="3" fill="#6b5340"/>
+          <circle cx="195" cy="330" r="3" fill="#6b5340"/>
+          <circle cx="180" cy="280" r="3" fill="#6b5340"/>
+          <circle cx="175" cy="220" r="6" fill="#b85c38"/>
+          <circle cx="175" cy="220" r="11" fill="none" stroke="#b85c38" stroke-width="1" opacity="0.5">
+            <animate attributeName="r" from="6" to="20" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" from="0.5" to="0" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="170" cy="170" r="3" fill="#3a2f28" opacity="0.4"/>
+          <circle cx="165" cy="130" r="3" fill="#3a2f28" opacity="0.4"/>
+          <circle cx="155" cy="95" r="3" fill="#3a2f28" opacity="0.4"/>
+          <!-- Compass rose -->
+          <g transform="translate(340, 80)" opacity="0.6">
+            <circle cx="0" cy="0" r="22" fill="none" stroke="#1f1814" stroke-width="0.5"/>
+            <path d="M 0 -18 L 3 0 L 0 18 L -3 0 Z" fill="#1f1814"/>
+            <path d="M -18 0 L 0 -3 L 18 0 L 0 3 Z" fill="#1f1814"/>
+            <text x="0" y="-26" text-anchor="middle" font-family="Fraunces, serif" font-size="9" fill="#1f1814">N</text>
+          </g>
+          <text x="200" y="485" text-anchor="middle" font-family="Caveat, cursive" font-size="14" fill="#3a2f28" opacity="0.7">live route from FindPenguins</text>
+        </svg>
+      </div>
+      <div class="findpenguins-cta">
+        <div class="text" data-i18n-html="tour.fpcta"><strong>Following along?</strong> See daily photo updates on FindPenguins.</div>
+        <a href="#" data-i18n="tour.fplink">Open the journal →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MUSIC / VIDEOS ============ -->
+<section class="music" id="music">
+  <div class="section-eyebrow" data-i18n="music.eyebrow">Listen</div>
+  <h2 class="section-title" data-i18n-html="music.title">From the <em>concert hall</em> to the road.</h2>
+  <div class="video-grid">
+    <div class="video-feature" data-yt="dQw4w9WgXcQ">
+      <div style="width:100%;height:100%;background: linear-gradient(135deg, #3a2f28, #1f1814); display:flex; align-items:center; justify-content:center;">
+        <svg viewBox="0 0 200 200" width="120" height="120" opacity="0.3">
+          <path d="M 80 30 Q 60 40, 55 70 Q 50 110, 70 150 Q 90 170, 110 160 Q 130 140, 125 100 Q 120 60, 100 40 Q 90 30, 80 30 Z" fill="#c49a52"/>
+        </svg>
+      </div>
+      <div class="play-icon"></div>
+      <div class="video-overlay">
+        <div class="video-info">
+          <div class="video-meta" data-i18n="music.feat1.meta">Featured · Live in Buenos Aires</div>
+          <div class="video-title" data-i18n="music.feat1.title">Piazzolla — Histoire du Tango</div>
+        </div>
+      </div>
+    </div>
+    <div class="video-secondary">
+      <div class="video-card" data-yt="dQw4w9WgXcQ">
+        <div style="width:100%;height:100%;background: linear-gradient(135deg, #6b5340, #3a2f28);"></div>
+        <div class="play-icon"></div>
+        <div class="video-overlay">
+          <div class="video-info">
+            <div class="video-meta" data-i18n="music.v1.meta">Studio</div>
+            <div class="video-title" data-i18n="music.v1.title">Villa-Lobos — Aria</div>
+          </div>
+        </div>
+      </div>
+      <div class="video-card" data-yt="dQw4w9WgXcQ">
+        <div style="width:100%;height:100%;background: linear-gradient(135deg, #8f4326, #5e2d19);"></div>
+        <div class="play-icon"></div>
+        <div class="video-overlay">
+          <div class="video-info">
+            <div class="video-meta" data-i18n="music.v2.meta">Live · Lima</div>
+            <div class="video-title" data-i18n="music.v2.title">Ginastera — Impresiones</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section id="gallery">
+  <div class="section-eyebrow" data-i18n="gallery.eyebrow">Field Notes</div>
+  <h2 class="section-title" data-i18n-html="gallery.title">The journey, in <em>photographs.</em></h2>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#b85c38,#6b5340);"></div>
+      <div class="gallery-caption">Plaza de Mayo, sound check at dusk</div>
+    </div>
+    <div class="gallery-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#6b7556,#4a5a3f);"></div>
+      <div class="gallery-caption">Andes crossing — bus #47</div>
+    </div>
+    <div class="gallery-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#c49a52,#8f4326);"></div>
+      <div class="gallery-caption">Cusco rooftop rehearsal</div>
+    </div>
+    <div class="gallery-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#3a2f28,#1f1814);"></div>
+      <div class="gallery-caption">Backstage, Teatro Solís</div>
+    </div>
+    <div class="gallery-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#a8896a,#6b5340);"></div>
+      <div class="gallery-caption">Atacama, between cities</div>
+    </div>
+    <div class="gallery-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#5c6e3f,#3a2f28);"></div>
+      <div class="gallery-caption">Audience after the encore</div>
+    </div>
+    <div class="gallery-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#b85c38,#c49a52);"></div>
+      <div class="gallery-caption">Festival, Quito</div>
+    </div>
+    <div class="gallery-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#6b5340,#b85c38);"></div>
+      <div class="gallery-caption">Train, somewhere in Bolivia</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOURNAL / BLOG ============ -->
+<section class="journal" id="journal">
+  <div class="section-eyebrow" data-i18n="journal.eyebrow">From the Road</div>
+  <h2 class="section-title" data-i18n-html="journal.title">Dispatches & <em>diary entries.</em></h2>
+  <div class="journal-grid">
+    <article class="post">
+      <div class="post-header">
+        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+          <g stroke="#fbf6e9" stroke-width="0.6" fill="none" opacity="0.25">
+            <path d="M 0 100 Q 100 60, 200 100 T 400 100"/>
+            <path d="M 0 130 Q 100 90, 200 130 T 400 130"/>
+            <path d="M 0 160 Q 100 120, 200 160 T 400 160"/>
+            <path d="M 0 70 Q 100 30, 200 70 T 400 70"/>
+          </g>
+        </svg>
+      </div>
+      <div class="post-body">
+        <div class="post-meta" data-i18n="post1.meta">12 April 2026 <span class="dot">·</span> Cusco</div>
+        <h3 class="post-title" data-i18n="post1.title">A guitar at 3,400 meters</h3>
+        <p class="post-excerpt" data-i18n="post1.excerpt">The altitude does strange things to nylon strings — and to the lungs of anyone trying to introduce a piece in Spanish without gasping…</p>
+        <a href="#" class="post-link" data-i18n="post1.cta">Read the entry</a>
+      </div>
+    </article>
+    <article class="post">
+      <div class="post-header">
+        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+          <g stroke="#fbf6e9" stroke-width="0.6" fill="none" opacity="0.3">
+            <circle cx="100" cy="100" r="50"/>
+            <circle cx="100" cy="100" r="80"/>
+            <circle cx="300" cy="50" r="30"/>
+            <circle cx="300" cy="50" r="55"/>
+          </g>
+        </svg>
+      </div>
+      <div class="post-body">
+        <div class="post-meta" data-i18n="post2.meta">29 March 2026 <span class="dot">·</span> Buenos Aires</div>
+        <h3 class="post-title" data-i18n="post2.title">On translating Piazzolla</h3>
+        <p class="post-excerpt" data-i18n="post2.excerpt">There is no neutral way to play tango outside Argentina. People listen with a particular attention — half generous, half watching to see if you understand…</p>
+        <a href="#" class="post-link" data-i18n="post2.cta">Read the entry</a>
+      </div>
+    </article>
+    <article class="post">
+      <div class="post-header">
+        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+          <g stroke="#fbf6e9" stroke-width="0.6" fill="none" opacity="0.25">
+            <path d="M 0 150 L 80 100 L 160 130 L 240 80 L 320 110 L 400 70"/>
+            <path d="M 0 170 L 80 120 L 160 150 L 240 100 L 320 130 L 400 90"/>
+          </g>
+        </svg>
+      </div>
+      <div class="post-body">
+        <div class="post-meta" data-i18n="post3.meta">14 March 2026 <span class="dot">·</span> En route</div>
+        <h3 class="post-title" data-i18n="post3.title">Border crossings & instrument cases</h3>
+        <p class="post-excerpt" data-i18n="post3.excerpt">A short guide for any musician thinking of taking a viola overland through six South American customs offices in three weeks…</p>
+        <a href="#" class="post-link" data-i18n="post3.cta">Read the entry</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ SUPPORT ============ -->
+<section id="support">
+  <div class="section-eyebrow" data-i18n="support.eyebrow">Become a Patron</div>
+  <h2 class="section-title" data-i18n-html="support.title">Help carry the <em>music</em> across the Americas.</h2>
+  <div class="support-grid">
+    <div class="support-intro">
+      <p data-i18n="support.p1">This tour is independently produced. Every contribution helps cover travel between cities, instrument insurance, recording costs, and modest fees for the local musicians and presenters who host us along the way.</p>
+      <p data-i18n="support.p2">Sponsors are recognized in our concert programs and on this site. Higher tiers receive recordings, signed CDs, and house concerts when we pass through your city.</p>
+      <div class="support-buttons">
+        <a class="support-btn" href="#">
+          <span class="name">Venmo</span>
+          <span class="handle">@atlas-duo</span>
+        </a>
+        <a class="support-btn" href="#">
+          <span class="name">PayPal</span>
+          <span class="handle">paypal.me/atlasduo</span>
+        </a>
+        <a class="support-btn" href="#">
+          <span class="name" data-i18n="support.recurring">Become a recurring patron</span>
+          <span class="handle">→</span>
+        </a>
+      </div>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <div class="amount">$25</div>
+        <div class="tier-name" data-i18n="tier1.name">Friend of the Tour</div>
+        <ul>
+          <li data-i18n="tier1.b1">Thank-you in concert program</li>
+          <li data-i18n="tier1.b2">Postcard from the road</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="amount">$100</div>
+        <div class="tier-name" data-i18n="tier2.name">Companion</div>
+        <ul>
+          <li data-i18n="tier2.b1">Everything above, plus</li>
+          <li data-i18n="tier2.b2">Signed studio CD</li>
+          <li data-i18n="tier2.b3">Name on website</li>
+        </ul>
+      </div>
+      <div class="tier featured">
+        <div class="amount">$500</div>
+        <div class="tier-name" data-i18n="tier3.name">Patron</div>
+        <ul>
+          <li data-i18n="tier3.b1">Everything above, plus</li>
+          <li data-i18n="tier3.b2">Private livestream concert</li>
+          <li data-i18n="tier3.b3">Behind-the-scenes journal</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="amount">$1,000</div>
+        <div class="tier-name" data-i18n="tier4.name">Producer</div>
+        <ul>
+          <li data-i18n="tier4.b1">Everything above, plus</li>
+          <li data-i18n="tier4.b2">House concert in your city</li>
+          <li data-i18n="tier4.b3">Album dedication</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEWSLETTER ============ -->
+<section class="newsletter">
+  <div class="section-eyebrow" data-i18n="news.eyebrow">Letters from the Road</div>
+  <h2 data-i18n-html="news.title">A letter <em>once a month,</em> from wherever we are.</h2>
+  <p class="newsletter-sub" data-i18n="news.sub">Concert dates, photos, recordings, and a few lines about what we've been hearing.</p>
+  <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Demo only — connect Buttondown or MailerLite for real signups.');">
+    <input type="email" placeholder="your.email@somewhere.com" required />
+    <button type="submit" data-i18n="news.btn">Subscribe</button>
+  </form>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="section-eyebrow" data-i18n="contact.eyebrow">Get in Touch</div>
+  <h2 class="section-title" data-i18n-html="contact.title">Booking, press, or <em>just to say hello.</em></h2>
+  <div class="contact-grid">
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('Demo only — Netlify Forms or Formspree handle this in production.');">
+      <div class="field">
+        <label data-i18n="contact.name">Your name</label>
+        <input type="text" required />
+      </div>
+      <div class="field">
+        <label data-i18n="contact.email">Email</label>
+        <input type="email" required />
+      </div>
+      <div class="field">
+        <label data-i18n="contact.subject">I'm reaching out about</label>
+        <select>
+          <option data-i18n="contact.opt1">Booking a concert</option>
+          <option data-i18n="contact.opt2">Press / interview</option>
+          <option data-i18n="contact.opt3">Sponsorship</option>
+          <option data-i18n="contact.opt4">Just saying hi</option>
+        </select>
+      </div>
+      <div class="field">
+        <label data-i18n="contact.msg">Message</label>
+        <textarea rows="4" required></textarea>
+      </div>
+      <button type="submit" class="submit-btn" data-i18n="contact.send">Send Letter →</button>
+    </form>
+    <div class="contact-side">
+      <h3 data-i18n="contact.side.h">Direct</h3>
+      <p data-i18n="contact.side.p">For booking inquiries, please include your venue's capacity, available dates, and any program preferences. We answer within a week, usually from somewhere with patchy wifi.</p>
+      <div class="contact-info">
+        <div class="row">
+          <span class="label" data-i18n="contact.info.email">Email</span>
+          <span class="val">hello@atlasduo.com</span>
+        </div>
+        <div class="row">
+          <span class="label" data-i18n="contact.info.booking">Booking</span>
+          <span class="val">booking@atlasduo.com</span>
+        </div>
+      </div>
+      <h3 data-i18n="contact.follow">Follow</h3>
+      <div class="socials">
+        <a class="social-link" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.81-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.81-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.81.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63 3.36.94 2.69 1.35 2.03 2.03 1.35 2.69.94 3.36.63 4.14c-.3.76-.5 1.64-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.78.72 1.45 1.4 2.11.66.66 1.33 1.07 2.11 1.4.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.78-.31 1.45-.72 2.11-1.4.66-.66 1.07-1.33 1.4-2.11.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.78-.72-1.45-1.4-2.11C21.31 1.35 20.64.94 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zM12 16a4 4 0 110-8 4 4 0 010 8zm6.41-11.85a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg></a>
+        <a class="social-link" href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg></a>
+        <a class="social-link" href="#" aria-label="Spotify"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12C24 5.4 18.66 0 12 0zm5.5 17.32a.75.75 0 01-1.03.25c-2.83-1.73-6.4-2.12-10.6-1.16a.75.75 0 11-.34-1.46c4.6-1.05 8.55-.6 11.72 1.34.36.22.47.69.25 1.03zm1.47-3.27a.94.94 0 01-1.29.31c-3.24-1.99-8.18-2.57-12.02-1.4a.94.94 0 01-.55-1.8c4.39-1.33 9.83-.69 13.55 1.6.44.28.58.86.31 1.29zm.13-3.4C15.3 8.4 8.7 8.18 5.06 9.28a1.13 1.13 0 01-.66-2.16c4.18-1.27 11.46-1.02 15.99 1.66a1.13 1.13 0 01-1.16 1.94z"/></svg></a>
+        <a class="social-link" href="#" aria-label="FindPenguins"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-mark">Atlas <em>&</em> Duo</div>
+  <div class="tagline" data-i18n="footer.tagline">~ a journey in fifths and sixths ~</div>
+  <div class="footer-rule"></div>
+  <div class="copy">© 2026 Atlas Duo · <span data-i18n="footer.copy">All recordings and writings their authors'</span></div>
+</footer>
+
+<script>
+  // ============ I18N ============
+  const translations = {
+    en: {
+      'logo': 'Atlas <em>&</em> Duo',
+      'nav.about': 'About', 'nav.tour': 'Tour', 'nav.music': 'Music',
+      'nav.journal': 'Journal', 'nav.support': 'Support', 'nav.contact': 'Contact',
+      'hero.meta': 'A Concert Tour · The Americas · 2026',
+      'hero.word1': 'Atlas', 'hero.word2': 'Duo',
+      'hero.tagline': 'A viola and a guitar carrying chamber music through fifteen countries — from Patagonia to the Yukon.',
+      'hero.currently': 'Currently in', 'hero.location': 'Cusco, Peru',
+      'hero.flourish': '~ a journey in fifths and sixths ~',
+      'about.eyebrow': 'Chapter One',
+      'about.title': 'Two instruments, <em>two continents,</em> one conversation.',
+      'about.p1': 'The Atlas Duo brings together the dark warmth of viola and the percussive clarity of guitar — an unusual pairing that opens new ground in chamber music. Across borders, climates, and time zones, the two voices trade lines like travelers swapping stories at a table.',
+      'about.p2': 'Our 2026 tour traces the spine of the Americas: from Buenos Aires and Santiago through the Andes, across Central America, into the great rivers of North America, and finishing in the long northern light of Yukon. Along the way: forty concerts, three languages, countless borrowed kitchens.',
+      'about.stat1': 'Concerts Booked', 'about.stat2': 'Countries', 'about.stat3': 'Months on Tour',
+      'tour.eyebrow': 'The Itinerary',
+      'tour.title': 'Upcoming <em>concerts</em> & where we are now.',
+      'tour.maplabel': 'live · find penguins',
+      'tour.fpcta': '<strong>Following along?</strong> See daily photo updates on FindPenguins.',
+      'tour.fplink': 'Open the journal →',
+      'music.eyebrow': 'Listen',
+      'music.title': 'From the <em>concert hall</em> to the road.',
+      'music.feat1.meta': 'Featured · Live in Buenos Aires',
+      'music.feat1.title': 'Piazzolla — Histoire du Tango',
+      'music.v1.meta': 'Studio', 'music.v1.title': 'Villa-Lobos — Aria',
+      'music.v2.meta': 'Live · Lima', 'music.v2.title': 'Ginastera — Impresiones',
+      'gallery.eyebrow': 'Field Notes',
+      'gallery.title': 'The journey, in <em>photographs.</em>',
+      'journal.eyebrow': 'From the Road',
+      'journal.title': 'Dispatches & <em>diary entries.</em>',
+      'post1.meta': '12 April 2026 · Cusco',
+      'post1.title': 'A guitar at 3,400 meters',
+      'post1.excerpt': 'The altitude does strange things to nylon strings — and to the lungs of anyone trying to introduce a piece in Spanish without gasping…',
+      'post1.cta': 'Read the entry',
+      'post2.meta': '29 March 2026 · Buenos Aires',
+      'post2.title': 'On translating Piazzolla',
+      'post2.excerpt': 'There is no neutral way to play tango outside Argentina. People listen with a particular attention — half generous, half watching to see if you understand…',
+      'post2.cta': 'Read the entry',
+      'post3.meta': '14 March 2026 · En route',
+      'post3.title': 'Border crossings & instrument cases',
+      'post3.excerpt': 'A short guide for any musician thinking of taking a viola overland through six South American customs offices in three weeks…',
+      'post3.cta': 'Read the entry',
+      'support.eyebrow': 'Become a Patron',
+      'support.title': 'Help carry the <em>music</em> across the Americas.',
+      'support.p1': 'This tour is independently produced. Every contribution helps cover travel between cities, instrument insurance, recording costs, and modest fees for the local musicians and presenters who host us along the way.',
+      'support.p2': 'Sponsors are recognized in our concert programs and on this site. Higher tiers receive recordings, signed CDs, and house concerts when we pass through your city.',
+      'support.recurring': 'Become a recurring patron',
+      'tier1.name': 'Friend of the Tour', 'tier1.b1': 'Thank-you in concert program', 'tier1.b2': 'Postcard from the road',
+      'tier2.name': 'Companion', 'tier2.b1': 'Everything above, plus', 'tier2.b2': 'Signed studio CD', 'tier2.b3': 'Name on website',
+      'tier3.name': 'Patron', 'tier3.b1': 'Everything above, plus', 'tier3.b2': 'Private livestream concert', 'tier3.b3': 'Behind-the-scenes journal',
+      'tier4.name': 'Producer', 'tier4.b1': 'Everything above, plus', 'tier4.b2': 'House concert in your city', 'tier4.b3': 'Album dedication',
+      'news.eyebrow': 'Letters from the Road',
+      'news.title': 'A letter <em>once a month,</em> from wherever we are.',
+      'news.sub': "Concert dates, photos, recordings, and a few lines about what we've been hearing.",
+      'news.btn': 'Subscribe',
+      'contact.eyebrow': 'Get in Touch',
+      'contact.title': 'Booking, press, or <em>just to say hello.</em>',
+      'contact.name': 'Your name', 'contact.email': 'Email',
+      'contact.subject': "I'm reaching out about",
+      'contact.opt1': 'Booking a concert', 'contact.opt2': 'Press / interview',
+      'contact.opt3': 'Sponsorship', 'contact.opt4': 'Just saying hi',
+      'contact.msg': 'Message', 'contact.send': 'Send Letter →',
+      'contact.side.h': 'Direct',
+      'contact.side.p': "For booking inquiries, please include your venue's capacity, available dates, and any program preferences. We answer within a week, usually from somewhere with patchy wifi.",
+      'contact.info.email': 'Email', 'contact.info.booking': 'Booking',
+      'contact.follow': 'Follow',
+      'footer.tagline': '~ a journey in fifths and sixths ~',
+      'footer.copy': "All recordings and writings their authors'"
+    },
+    es: {
+      'logo': 'Atlas <em>&</em> Dúo',
+      'nav.about': 'Nosotros', 'nav.tour': 'Gira', 'nav.music': 'Música',
+      'nav.journal': 'Diario', 'nav.support': 'Apoyar', 'nav.contact': 'Contacto',
+      'hero.meta': 'Una gira de conciertos · Las Américas · 2026',
+      'hero.word1': 'Atlas', 'hero.word2': 'Dúo',
+      'hero.tagline': 'Una viola y una guitarra llevando música de cámara por quince países — desde la Patagonia hasta el Yukón.',
+      'hero.currently': 'Actualmente en', 'hero.location': 'Cusco, Perú',
+      'hero.flourish': '~ un viaje en quintas y sextas ~',
+      'about.eyebrow': 'Capítulo Uno',
+      'about.title': 'Dos instrumentos, <em>dos continentes,</em> una conversación.',
+      'about.p1': 'Atlas Dúo reúne la cálida oscuridad de la viola con la claridad percusiva de la guitarra — una combinación poco común que abre nuevos caminos en la música de cámara. A través de fronteras, climas y husos horarios, las dos voces intercambian frases como viajeros que comparten historias en una mesa.',
+      'about.p2': 'Nuestra gira de 2026 recorre la columna vertebral de las Américas: desde Buenos Aires y Santiago, a través de los Andes, cruzando Centroamérica, hasta los grandes ríos de Norteamérica, y terminando en la luz prolongada del norte en Yukón. En el camino: cuarenta conciertos, tres idiomas, innumerables cocinas prestadas.',
+      'about.stat1': 'Conciertos confirmados', 'about.stat2': 'Países', 'about.stat3': 'Meses de gira',
+      'tour.eyebrow': 'El itinerario',
+      'tour.title': 'Próximos <em>conciertos</em> y dónde estamos ahora.',
+      'tour.maplabel': 'en vivo · find penguins',
+      'tour.fpcta': '<strong>¿Nos sigues?</strong> Mira las actualizaciones diarias en FindPenguins.',
+      'tour.fplink': 'Abrir el diario →',
+      'music.eyebrow': 'Escuchar',
+      'music.title': 'Del <em>auditorio</em> al camino.',
+      'music.feat1.meta': 'Destacado · En vivo en Buenos Aires',
+      'music.feat1.title': 'Piazzolla — Histoire du Tango',
+      'music.v1.meta': 'Estudio', 'music.v1.title': 'Villa-Lobos — Aria',
+      'music.v2.meta': 'En vivo · Lima', 'music.v2.title': 'Ginastera — Impresiones',
+      'gallery.eyebrow': 'Apuntes de viaje',
+      'gallery.title': 'El viaje, en <em>fotografías.</em>',
+      'journal.eyebrow': 'Desde el camino',
+      'journal.title': 'Crónicas y <em>entradas del diario.</em>',
+      'post1.meta': '12 de abril de 2026 · Cusco',
+      'post1.title': 'Una guitarra a 3.400 metros',
+      'post1.excerpt': 'La altitud hace cosas extrañas con las cuerdas de nailon — y con los pulmones de cualquiera que intente presentar una pieza en español sin quedarse sin aire…',
+      'post1.cta': 'Leer la entrada',
+      'post2.meta': '29 de marzo de 2026 · Buenos Aires',
+      'post2.title': 'Sobre traducir a Piazzolla',
+      'post2.excerpt': 'No hay forma neutral de tocar tango fuera de Argentina. La gente escucha con una atención particular — mitad generosa, mitad atenta a ver si entiendes…',
+      'post2.cta': 'Leer la entrada',
+      'post3.meta': '14 de marzo de 2026 · En camino',
+      'post3.title': 'Cruces fronterizos y estuches de instrumentos',
+      'post3.excerpt': 'Una breve guía para cualquier músico que esté pensando en llevar una viola por tierra a través de seis aduanas sudamericanas en tres semanas…',
+      'post3.cta': 'Leer la entrada',
+      'support.eyebrow': 'Sé un mecenas',
+      'support.title': 'Ayúdanos a llevar la <em>música</em> por las Américas.',
+      'support.p1': 'Esta gira se produce de forma independiente. Cada aporte ayuda a cubrir los traslados entre ciudades, el seguro de los instrumentos, los costos de grabación y los honorarios modestos de los músicos y presentadores locales que nos hospedan en el camino.',
+      'support.p2': 'Los patrocinadores aparecen en nuestros programas de concierto y en este sitio. Los niveles más altos reciben grabaciones, CDs firmados y conciertos en casa cuando pasemos por su ciudad.',
+      'support.recurring': 'Conviértete en mecenas mensual',
+      'tier1.name': 'Amigo de la gira', 'tier1.b1': 'Agradecimiento en el programa', 'tier1.b2': 'Postal desde el camino',
+      'tier2.name': 'Compañero', 'tier2.b1': 'Todo lo anterior, más', 'tier2.b2': 'CD de estudio firmado', 'tier2.b3': 'Nombre en el sitio web',
+      'tier3.name': 'Mecenas', 'tier3.b1': 'Todo lo anterior, más', 'tier3.b2': 'Concierto privado en vivo', 'tier3.b3': 'Diario tras bambalinas',
+      'tier4.name': 'Productor', 'tier4.b1': 'Todo lo anterior, más', 'tier4.b2': 'Concierto en tu casa', 'tier4.b3': 'Dedicatoria del álbum',
+      'news.eyebrow': 'Cartas desde el camino',
+      'news.title': 'Una carta <em>al mes,</em> desde donde estemos.',
+      'news.sub': 'Fechas de conciertos, fotos, grabaciones y unas líneas sobre lo que hemos estado escuchando.',
+      'news.btn': 'Suscribirme',
+      'contact.eyebrow': 'Escríbenos',
+      'contact.title': 'Reservas, prensa, o <em>solo para saludar.</em>',
+      'contact.name': 'Tu nombre', 'contact.email': 'Correo',
+      'contact.subject': 'Quiero contactar sobre',
+      'contact.opt1': 'Reservar un concierto', 'contact.opt2': 'Prensa / entrevista',
+      'contact.opt3': 'Patrocinio', 'contact.opt4': 'Solo saludar',
+      'contact.msg': 'Mensaje', 'contact.send': 'Enviar carta →',
+      'contact.side.h': 'Directo',
+      'contact.side.p': 'Para reservas, por favor incluye la capacidad del espacio, fechas disponibles y preferencias de programa. Respondemos dentro de una semana, normalmente desde algún lugar con wifi irregular.',
+      'contact.info.email': 'Correo', 'contact.info.booking': 'Reservas',
+      'contact.follow': 'Síguenos',
+      'footer.tagline': '~ un viaje en quintas y sextas ~',
+      'footer.copy': 'Todas las grabaciones y escritos pertenecen a sus autores'
+    },
+    pt: {
+      'logo': 'Atlas <em>&</em> Duo',
+      'nav.about': 'Sobre', 'nav.tour': 'Turnê', 'nav.music': 'Música',
+      'nav.journal': 'Diário', 'nav.support': 'Apoiar', 'nav.contact': 'Contato',
+      'hero.meta': 'Uma turnê de concertos · As Américas · 2026',
+      'hero.word1': 'Atlas', 'hero.word2': 'Duo',
+      'hero.tagline': 'Uma viola e um violão levando música de câmara por quinze países — da Patagônia ao Yukon.',
+      'hero.currently': 'Atualmente em', 'hero.location': 'Cusco, Peru',
+      'hero.flourish': '~ uma jornada em quintas e sextas ~',
+      'about.eyebrow': 'Capítulo Um',
+      'about.title': 'Dois instrumentos, <em>dois continentes,</em> uma conversa.',
+      'about.p1': 'O Atlas Duo une o calor escuro da viola e a clareza percussiva do violão — uma combinação incomum que abre novos caminhos na música de câmara. Atravessando fronteiras, climas e fusos horários, as duas vozes trocam frases como viajantes contando histórias à mesa.',
+      'about.p2': 'Nossa turnê de 2026 percorre a espinha dorsal das Américas: de Buenos Aires e Santiago, pelos Andes, através da América Central, até os grandes rios da América do Norte, terminando na luz prolongada do norte do Yukon. Pelo caminho: quarenta concertos, três idiomas, incontáveis cozinhas emprestadas.',
+      'about.stat1': 'Concertos confirmados', 'about.stat2': 'Países', 'about.stat3': 'Meses na estrada',
+      'tour.eyebrow': 'O itinerário',
+      'tour.title': 'Próximos <em>concertos</em> e onde estamos agora.',
+      'tour.maplabel': 'ao vivo · find penguins',
+      'tour.fpcta': '<strong>Nos acompanhando?</strong> Veja atualizações diárias no FindPenguins.',
+      'tour.fplink': 'Abrir o diário →',
+      'music.eyebrow': 'Ouvir',
+      'music.title': 'Da <em>sala de concerto</em> à estrada.',
+      'music.feat1.meta': 'Destaque · Ao vivo em Buenos Aires',
+      'music.feat1.title': 'Piazzolla — Histoire du Tango',
+      'music.v1.meta': 'Estúdio', 'music.v1.title': 'Villa-Lobos — Aria',
+      'music.v2.meta': 'Ao vivo · Lima', 'music.v2.title': 'Ginastera — Impresiones',
+      'gallery.eyebrow': 'Anotações de campo',
+      'gallery.title': 'A jornada, em <em>fotografias.</em>',
+      'journal.eyebrow': 'Da estrada',
+      'journal.title': 'Crônicas e <em>entradas do diário.</em>',
+      'post1.meta': '12 de abril de 2026 · Cusco',
+      'post1.title': 'Um violão a 3.400 metros',
+      'post1.excerpt': 'A altitude faz coisas estranhas com as cordas de nylon — e com os pulmões de quem tenta apresentar uma peça em espanhol sem ofegar…',
+      'post1.cta': 'Ler a entrada',
+      'post2.meta': '29 de março de 2026 · Buenos Aires',
+      'post2.title': 'Sobre traduzir Piazzolla',
+      'post2.excerpt': 'Não há jeito neutro de tocar tango fora da Argentina. As pessoas escutam com atenção particular — metade generosa, metade observando para ver se você entende…',
+      'post2.cta': 'Ler a entrada',
+      'post3.meta': '14 de março de 2026 · A caminho',
+      'post3.title': 'Travessias de fronteira e estojos de instrumentos',
+      'post3.excerpt': 'Um pequeno guia para qualquer músico pensando em levar uma viola por terra através de seis alfândegas sul-americanas em três semanas…',
+      'post3.cta': 'Ler a entrada',
+      'support.eyebrow': 'Torne-se mecenas',
+      'support.title': 'Ajude a levar a <em>música</em> pelas Américas.',
+      'support.p1': 'Esta turnê é produzida de forma independente. Cada contribuição ajuda a cobrir viagens entre cidades, seguro dos instrumentos, custos de gravação e cachês modestos dos músicos e apresentadores locais que nos hospedam pelo caminho.',
+      'support.p2': 'Patrocinadores são reconhecidos em nossos programas de concerto e neste site. Níveis mais altos recebem gravações, CDs autografados e concertos em casa quando passamos pela sua cidade.',
+      'support.recurring': 'Torne-se mecenas mensal',
+      'tier1.name': 'Amigo da turnê', 'tier1.b1': 'Agradecimento no programa', 'tier1.b2': 'Cartão postal da estrada',
+      'tier2.name': 'Companheiro', 'tier2.b1': 'Tudo acima, mais', 'tier2.b2': 'CD de estúdio autografado', 'tier2.b3': 'Nome no site',
+      'tier3.name': 'Mecenas', 'tier3.b1': 'Tudo acima, mais', 'tier3.b2': 'Concerto privado ao vivo', 'tier3.b3': 'Diário dos bastidores',
+      'tier4.name': 'Produtor', 'tier4.b1': 'Tudo acima, mais', 'tier4.b2': 'Concerto na sua casa', 'tier4.b3': 'Dedicatória do álbum',
+      'news.eyebrow': 'Cartas da estrada',
+      'news.title': 'Uma carta <em>por mês,</em> de onde estivermos.',
+      'news.sub': 'Datas de concertos, fotos, gravações e algumas linhas sobre o que temos ouvido.',
+      'news.btn': 'Inscrever-se',
+      'contact.eyebrow': 'Entre em contato',
+      'contact.title': 'Reservas, imprensa, ou <em>só para dizer olá.</em>',
+      'contact.name': 'Seu nome', 'contact.email': 'E-mail',
+      'contact.subject': 'Estou entrando em contato sobre',
+      'contact.opt1': 'Reservar um concerto', 'contact.opt2': 'Imprensa / entrevista',
+      'contact.opt3': 'Patrocínio', 'contact.opt4': 'Só dizer olá',
+      'contact.msg': 'Mensagem', 'contact.send': 'Enviar carta →',
+      'contact.side.h': 'Direto',
+      'contact.side.p': 'Para reservas, por favor inclua a capacidade do local, datas disponíveis e preferências de programa. Respondemos em uma semana, geralmente de algum lugar com wifi instável.',
+      'contact.info.email': 'E-mail', 'contact.info.booking': 'Reservas',
+      'contact.follow': 'Siga-nos',
+      'footer.tagline': '~ uma jornada em quintas e sextas ~',
+      'footer.copy': 'Todas as gravações e textos pertencem aos seus autores'
+    }
+  };
+
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang][key]) el.textContent = translations[lang][key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (translations[lang][key]) el.innerHTML = translations[lang][key];
+    });
+    document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.lang-toggle button[data-lang="${lang}"]`).classList.add('active');
+  }
+
+  document.querySelectorAll('.lang-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  // ============ CONCERTS ============
+  const concerts = [
+    { day: '15', month: { en: 'May', es: 'May', pt: 'Mai' }, city: 'Cusco', country: 'Peru', venue: 'Centro Qosqo de Arte Nativo' },
+    { day: '22', month: { en: 'May', es: 'May', pt: 'Mai' }, city: 'Lima', country: 'Peru', venue: 'Teatro Municipal' },
+    { day: '04', month: { en: 'Jun', es: 'Jun', pt: 'Jun' }, city: 'Quito', country: 'Ecuador', venue: 'Casa de la Música' },
+    { day: '18', month: { en: 'Jun', es: 'Jun', pt: 'Jun' }, city: 'Bogotá', country: 'Colombia', venue: 'Teatro Colón' },
+    { day: '07', month: { en: 'Jul', es: 'Jul', pt: 'Jul' }, city: 'Mexico City', country: 'Mexico', venue: 'Sala Manuel M. Ponce' },
+    { day: '24', month: { en: 'Jul', es: 'Jul', pt: 'Jul' }, city: 'Austin', country: 'USA', venue: 'Bates Recital Hall' }
+  ];
+
+  function renderConcerts(lang) {
+    const list = document.getElementById('concerts-list');
+    list.innerHTML = concerts.map(c => `
+      <div class="concert">
+        <div class="concert-date">
+          <div class="day">${c.day}</div>
+          <div class="month">${c.month[lang]}</div>
+        </div>
+        <div class="concert-info">
+          <div class="concert-city">${c.city}<span class="country">, ${c.country}</span></div>
+          <div class="concert-venue">${c.venue}</div>
+        </div>
+        <a class="concert-cta" href="#">${lang === 'en' ? 'Tickets' : lang === 'es' ? 'Entradas' : 'Ingressos'}</a>
+      </div>
+    `).join('');
+  }
+  renderConcerts('en');
+
+  document.querySelectorAll('.lang-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => renderConcerts(btn.dataset.lang));
+  });
+
+  // ============ SCROLL REVEAL ============
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('section').forEach(s => {
+    s.classList.add('reveal');
+    observer.observe(s);
+  });
+</script>
+
+</body>
+</html>
